@@ -79,7 +79,7 @@ class PointDetector(nn.modules.Module):
 
         if self.training:
             marks = data_dict['marks']
-            pred_dict = self.predict_slots(descriptor_map, marks[:, :, :3])
+            pred_dict = self.predict_slots(descriptor_map, marks[:, :, :2])
             data_dict.update(pred_dict)
         else:
             data_dict['descriptor_map'] = descriptor_map
@@ -87,7 +87,7 @@ class PointDetector(nn.modules.Module):
         return data_dict
 
     def predict_slots(self, descriptor_map, points):
-        descriptors = self.sample_descriptors(descriptor_map, points[:, :, :2])
+        descriptors = self.sample_descriptors(descriptor_map, points)
         data_dict = {}
         data_dict['descriptors'] = descriptors
         data_dict['points'] = points
@@ -173,7 +173,7 @@ class PointDetector(nn.modules.Module):
                 points_full = points_np
 
             # pred_dict = self.predict_slots(descriptor_map[b].unsqueeze(0), torch.Tensor(points_full).unsqueeze(0).cuda())
-            pred_dict = self.predict_slots(descriptor_map[b].unsqueeze(0), torch.Tensor(points_full[:, :3]).unsqueeze(0).cuda())
+            pred_dict = self.predict_slots(descriptor_map[b].unsqueeze(0), torch.Tensor(points_full[:, :2]).unsqueeze(0).cuda())
             edges = pred_dict['edges_pred'][0]
             n = points_np.shape[0]
             m = points_full.shape[0]

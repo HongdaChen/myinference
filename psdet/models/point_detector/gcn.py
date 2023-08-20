@@ -119,7 +119,7 @@ class GCNEncoder(nn.Module):
         self.cfg = cfg
         self.feat_dim = cfg.point_encoder.output_dim
 
-        self.point_encoder = PointEncoder(3, self.feat_dim, cfg.point_encoder.layers) 
+        self.point_encoder = PointEncoder(2, self.feat_dim, cfg.point_encoder.layers) 
         
         if cfg.type == 'GAT':
             self.gnn = AttentionalGNN(self.feat_dim, cfg.gnn.gat_layers)
@@ -131,9 +131,9 @@ class GCNEncoder(nn.Module):
         self.proj = nn.Conv1d(self.feat_dim, cfg.gnn.proj_dim, kernel_size=1, bias=True)
 
     def forward(self, data_dict):
-        points = data_dict['points'][:,:,:3] # [B, N num_points, 3]
+        points = data_dict['points'][:,:,:2] # [B, N num_points, 2]
 
-        points = points.permute(0, 2, 1) # [B, 3, num_points]
+        points = points.permute(0, 2, 1) # [B, 2, num_points]
 
         x = self.point_encoder(points) # [B, desc_dim, num_points]
 

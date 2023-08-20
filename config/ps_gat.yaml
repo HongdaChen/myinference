@@ -1,5 +1,5 @@
 # train
-batch_size: &batch_size 16
+batch_size: &batch_size 12
 epochs: 200
 start_epoch: 0
 launcher: 'none'
@@ -38,7 +38,7 @@ model:
   task: 'point_detection'
 
   detector: 'GAT' # 'DMPR', 'GAT'
-  backbone: 'resnet50' #  'VGG16', 'Darknet', 'resnet18', 'resnet50'
+  backbone: 'resnet18' #  'VGG16', 'Darknet', 'resnet18', 'resnet50'
   max_points: *max_points
   input_channels: 3
   output_channels: 4
